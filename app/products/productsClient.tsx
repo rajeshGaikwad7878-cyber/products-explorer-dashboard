@@ -7,7 +7,7 @@ import SearchInput from "@/components/filters/SearchInput";
 import CategoryFilter from "@/components/filters/CategoryFilter";
 import SortSelect from "@/components/filters/SortSelect";
 import Pagination from "@/components/filters/Pagination";
-
+import ThemeToggle from "@/components/UI/ThemeToggle";
 const PAGE_SIZE = 8;
 
 export default function ProductsClient({ products }: { products: Product[] }) {
@@ -53,6 +53,7 @@ export default function ProductsClient({ products }: { products: Product[] }) {
   return (
     <div className="p-6">
       <div className="flex flex-col md:flex-row gap-4 mb-6">
+        
         <SearchInput value={search} onChange={setSearch} />
         <CategoryFilter
           categories={categories}
@@ -60,6 +61,7 @@ export default function ProductsClient({ products }: { products: Product[] }) {
           onChange={setCategory}
         />
         <SortSelect value={sort} onChange={setSort} />
+        <ThemeToggle />
       </div>
 
       {paginated.length === 0 ? (
