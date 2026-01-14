@@ -1,4 +1,3 @@
-
 import "./globals.css";
 import { ReduxProvider } from "./providers";
 
@@ -9,7 +8,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className="bg-primary-50 text-primary-900 dark:bg-primary-900 dark:text-primary-50">
+      <body
+        className="bg-gray-100 text-gray-900
+  dark:bg-gray-950 dark:text-gray-100
+  transition-colors duration-300"
+      >
         <ReduxProvider>{children}</ReduxProvider>
       </body>
     </html>

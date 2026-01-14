@@ -28,16 +28,16 @@ export default async function ProductDetail({
    <div className="min-h-screen flex items-center justify-center p-6">
   <div className="max-w-4xl w-full">
     <BackButton />
-    <div className="border border-primary-200 rounded-lg p-6 shadow-lg bg-white dark:bg-primary-800">
-      <div className="grid md:grid-cols-2 gap-6">
-        <Image
-          src={product.image}
-          alt={product.title}
-          width={300}
-          height={300}
-          className="mx-auto object-contain"
-        />
-        <div>
+      <div className="border border-primary-200 rounded-lg p-6 shadow-lg bg-white dark:bg-primary-800">
+        <div className="grid md:grid-cols-2 gap-6">
+          <Image
+            src={product.image}
+            alt={product.title}
+            width={300}
+            height={300}
+            className="mx-auto object-contain"
+          />
+          <div>
           <h1 className="text-2xl font-bold mb-2 text-primary-900 dark:text-primary-100">
             {product.title}
           </h1>
