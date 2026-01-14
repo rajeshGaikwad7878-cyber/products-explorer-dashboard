@@ -4,9 +4,7 @@ const BASE_URL = "https://fakestoreapi.com";
 
 export async function fetchProducts(): Promise<Product[]> {
   try {
-    const res = await fetch(`${BASE_URL}/products`, {
-      cache: "no-store",
-    });
+    const res = await fetch(`${BASE_URL}/products`);
 
     if (!res.ok) {
       throw new Error("Failed to fetch products");
