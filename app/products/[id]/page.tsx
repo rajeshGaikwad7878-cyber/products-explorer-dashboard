@@ -1,26 +1,50 @@
+"use client";
+
 import { fetchProductById } from "@/lib/api";
 import Image from "next/image";
-import { notFound } from "next/navigation";
+import { useParams } from "next/navigation";
+import { useEffect, useState } from "react";
 import BackButton from "@/components/UI/BackButton";
+import { Product } from "@/types/product";
 
-export default async function ProductDetail({
-  params,
-}: {
-  params: Promise<{ id: string }>;
-}) {
-  const { id } = await params;
+export default function ProductDetail() {
+  const params = useParams();
+  const id = params.id as string;
+  const [product, setProduct] = useState<Product | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  let product;
+  useEffect(() => {
+    const loadProduct = async () => {
+      try {
+        const data = await fetchProductById(id);
+        setProduct(data);
+      } catch (err) {
+        console.error("Failed to fetch product:", err);
+        setError("Product not found");
+      } finally {
+        setLoading(false);
+      }
+    };
+    if (id) {
+      loadProduct();
+    }
+  }, [id]);
 
-  try {
-    product = await fetchProductById(id);
-  } catch (error) {
-    console.error("Failed to fetch product:", error);
-    notFound();
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center p-6">
+        <p>Loading product...</p>
+      </div>
+    );
   }
 
-  if (!product) {
-    notFound();
+  if (error || !product) {
+    return (
+      <div className="min-h-screen flex items-center justify-center p-6">
+        <p className="text-red-500">{error || "Product not found"}</p>
+      </div>
+    );
   }
 
   return (

@@ -8,9 +8,13 @@ import CategoryFilter from "@/components/filters/CategoryFilter";
 import SortSelect from "@/components/filters/SortSelect";
 import Pagination from "@/components/filters/Pagination";
 import ThemeToggle from "@/components/UI/ThemeToggle";
+import { fetchProducts } from "@/lib/api";
 const PAGE_SIZE = 8;
 
-export default function ProductsClient({ products }: { products: Product[] }) {
+export default function ProductsClient() {
+  const [products, setProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState("");
   const [sort, setSort] = useState("");
@@ -52,6 +56,21 @@ export default function ProductsClient({ products }: { products: Product[] }) {
     return () => window.removeEventListener('storage', handleStorageChange);
   }, []);
 
+  useEffect(() => {
+    const loadProducts = async () => {
+      try {
+        const data = await fetchProducts();
+        setProducts(data);
+      } catch (err) {
+        console.error("Failed to fetch products:", err);
+        setError("Failed to load products");
+      } finally {
+        setLoading(false);
+      }
+    };
+    loadProducts();
+  }, []);
+
   const categories = Array.from(new Set(products.map((p) => p.category)));
   const filtered = useMemo(() => {
     let data = [...products];
@@ -84,6 +103,22 @@ export default function ProductsClient({ products }: { products: Product[] }) {
   const totalPages = Math.ceil(filtered.length / PAGE_SIZE);
   const paginated = filtered.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
 
+  if (loading) {
+    return (
+      <div className="p-6 min-h-screen">
+        <p className="text-center">Loading products...</p>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="p-6 min-h-screen">
+        <p className="text-center text-red-500">{error}</p>
+      </div>
+    );
+  }
+
   return (
     <div
       className="p-6 min-h-screen"
@@ -92,7 +127,7 @@ export default function ProductsClient({ products }: { products: Product[] }) {
         <SearchInput value={search} onChange={setSearch} />
         <div className="flex items-center gap-3">
   <label className="flex items-center cursor-pointer">
-    
+
     <input
       type="checkbox"
       checked={showFavorites}
@@ -102,7 +137,7 @@ export default function ProductsClient({ products }: { products: Product[] }) {
       }}
       className="sr-only"
     />
-    
+
     <div className="w-6 h-6 flex items-center justify-center border-1 border-primary-200  bg-white dark:bg-primary-800 transition-colors duration-300">
       {showFavorites && (
         <svg
