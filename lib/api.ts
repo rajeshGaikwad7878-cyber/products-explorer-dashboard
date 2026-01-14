@@ -15,7 +15,7 @@ export async function fetchProducts(): Promise<Product[]> {
     return await res.json();
   } catch (error) {
     console.error("Fetch products error:", error);
-    return []; // prevent app crash
+    return []; 
   }
 }
 

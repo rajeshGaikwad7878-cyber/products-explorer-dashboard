@@ -38,7 +38,6 @@ export default function ProductsClient({ products }: { products: Product[] }) {
       data = data.filter((p) => p.category === category);
     }
 
-    // ⭐ FAVORITES FILTER
     if (showFavorites) {
       data = data.filter((p) => favoriteIds.includes(p.id));
     }
@@ -63,17 +62,38 @@ export default function ProductsClient({ products }: { products: Product[] }) {
     >
       <div className="flex flex-col md:flex-row gap-4 mb-6">
         <SearchInput value={search} onChange={setSearch} />
-        <div className="flex items-center gap-2">
-          <input
-            type="checkbox"
-            checked={showFavorites}
-            onChange={(e) => {
-              setShowFavorites(e.target.checked);
-              setPage(1); 
-            }}
-          />
-          <span className="text-sm">Favorites only</span>
-        </div>
+        <div className="flex items-center gap-3">
+  <label className="flex items-center cursor-pointer">
+    
+    <input
+      type="checkbox"
+      checked={showFavorites}
+      onChange={(e) => {
+        setShowFavorites(e.target.checked);
+        setPage(1);
+      }}
+      className="sr-only"
+    />
+    
+    <div className="w-6 h-6 flex items-center justify-center border-1 border-primary-200  bg-white dark:bg-primary-800 transition-colors duration-300">
+      {showFavorites && (
+        <svg
+          className="w-5 h-5 text-primary-500"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="3"
+          viewBox="0 0 24 24"
+        >
+          <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+        </svg>
+      )}
+    </div>
+    <span className="ml-2 text-sm font-medium text-gray-700 dark:text-gray-200">
+      Favorites only
+    </span>
+  </label>
+</div>
+
 
         <CategoryFilter
           categories={categories}

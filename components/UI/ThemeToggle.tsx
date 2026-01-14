@@ -13,8 +13,8 @@ export default function ThemeToggle() {
   return (
     <button
       onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-      className="cursor-pointer rounded-md border  text-xs font-sm
-                 bg-primary-100 text-primary-900
+      className="cursor-pointer rounded-md border px-3   text-sm font-sm
+                 bg-primary-100 text-primary-900 ml-auto
                  dark:bg-primary-700 dark:text-primary-100
                  transition"
     >

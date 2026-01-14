@@ -3,14 +3,10 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Default (light theme) */
 :root {
   --background: #eff6ff;
   --foreground: #1e3a8a;
 }
-
-
-
 
 @theme inline {
   --color-background: var(--background);
@@ -20,14 +16,10 @@
 }
 
 
-
-
-/* Light theme */
 :root {
   --background: #f2f9fa;
 }
 
-/* Dark theme (controlled by next-themes) */
 .dark {
   --background: #7781b1; 
   
@@ -39,7 +31,7 @@ body {
   color:#061868
 }
 
-/* Smooth transitions */
+
 * {
   transition: background-color 0.2s ease, color 0.2s ease;
 }

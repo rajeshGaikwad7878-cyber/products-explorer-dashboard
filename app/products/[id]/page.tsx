@@ -8,9 +8,7 @@ export default async function ProductDetail({
 }: {
   params: Promise<{ id: string }>;
 }) {
-  const { id } = await params; // ✅ REQUIRED IN NEXT 15
-
-  console.log("Route param ID:", id); // SERVER LOG
+  const { id } = await params;
 
   let product;
 
