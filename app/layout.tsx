@@ -1,5 +1,5 @@
 import "./globals.css";
-import { ReduxProvider } from "./providers";
+import { ThemeProviderWrapper } from "./providers";
 
 export default function RootLayout({
   children,
@@ -13,7 +13,7 @@ export default function RootLayout({
   dark:bg-gray-950 dark:text-gray-100
   transition-colors duration-300"
       >
-        <ReduxProvider>{children}</ReduxProvider>
+        <ThemeProviderWrapper>{children}</ThemeProviderWrapper>
       </body>
     </html>
   );

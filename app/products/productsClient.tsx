@@ -8,8 +8,6 @@ import CategoryFilter from "@/components/filters/CategoryFilter";
 import SortSelect from "@/components/filters/SortSelect";
 import Pagination from "@/components/filters/Pagination";
 import ThemeToggle from "@/components/UI/ThemeToggle";
-import { useSelector } from "react-redux";
-import { RootState } from "@/store";
 const PAGE_SIZE = 8;
 
 export default function ProductsClient({ products }: { products: Product[] }) {
@@ -18,13 +16,43 @@ export default function ProductsClient({ products }: { products: Product[] }) {
   const [sort, setSort] = useState("");
   const [page, setPage] = useState(1);
   const [showFavorites, setShowFavorites] = useState(false);
+  const [favoriteIds, setFavoriteIds] = useState<number[]>([]);
 
   useEffect(() => {
     setPage(1);
   }, [search, category, sort, showFavorites]);
-  const favoriteIds = useSelector((state: RootState) => state.favorites.ids);
-  const categories = Array.from(new Set(products.map((p) => p.category)));
 
+  useEffect(() => {
+    const stored = localStorage.getItem("favorites");
+    if (stored) {
+      setFavoriteIds(JSON.parse(stored));
+    }
+  }, []);
+
+  useEffect(() => {
+    const handleFavoritesUpdate = (e: CustomEvent<number[]>) => {
+      setFavoriteIds(e.detail);
+    };
+    window.addEventListener('favoritesUpdated', handleFavoritesUpdate as EventListener);
+    return () => window.removeEventListener('favoritesUpdated', handleFavoritesUpdate as EventListener);
+  }, []);
+
+  useEffect(() => {
+    const handleStorageChange = (e: StorageEvent) => {
+      if (e.key === 'favorites') {
+        const stored = e.newValue;
+        if (stored) {
+          setFavoriteIds(JSON.parse(stored));
+        } else {
+          setFavoriteIds([]);
+        }
+      }
+    };
+    window.addEventListener('storage', handleStorageChange);
+    return () => window.removeEventListener('storage', handleStorageChange);
+  }, []);
+
+  const categories = Array.from(new Set(products.map((p) => p.category)));
   const filtered = useMemo(() => {
     let data = [...products];
 
