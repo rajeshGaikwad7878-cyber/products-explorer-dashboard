@@ -3,6 +3,7 @@
 import { Product } from "@/types/product";
 import { useMemo, useState, useEffect } from "react";
 import ProductCard from "./ProductCard";
+import ProductSkeleton from "./ProductSkeleton";
 import SearchInput from "@/components/filters/SearchInput";
 import CategoryFilter from "@/components/filters/CategoryFilter";
 import SortSelect from "@/components/filters/SortSelect";
@@ -106,7 +107,11 @@ export default function ProductsClient() {
   if (loading) {
     return (
       <div className="p-6 min-h-screen">
-        <p className="text-center">Loading products...</p>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          {Array.from({ length: PAGE_SIZE }).map((_, i) => (
+            <ProductSkeleton key={i} />
+          ))}
+        </div>
       </div>
     );
   }

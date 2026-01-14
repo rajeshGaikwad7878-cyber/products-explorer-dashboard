@@ -6,6 +6,7 @@ import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import BackButton from "@/components/UI/BackButton";
 import { Product } from "@/types/product";
+import ProductDetailSkeleton from "../ProductDetailSkeleton";
 
 export default function ProductDetail() {
   const params = useParams();
@@ -32,11 +33,7 @@ export default function ProductDetail() {
   }, [id]);
 
   if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center p-6">
-        <p>Loading product...</p>
-      </div>
-    );
+    return <ProductDetailSkeleton />;
   }
 
   if (error || !product) {
@@ -56,8 +53,8 @@ export default function ProductDetail() {
           <Image
             src={product.image}
             alt={product.title}
-            width={300}
-            height={300}
+            width={200}
+            height={200}
             className="mx-auto object-contain"
           />
           <div>
