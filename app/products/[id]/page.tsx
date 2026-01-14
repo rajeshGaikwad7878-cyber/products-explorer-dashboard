@@ -14,7 +14,8 @@ export default async function ProductDetail({
 
   try {
     product = await fetchProductById(id);
-  } catch {
+  } catch (error) {
+    console.error("Failed to fetch product:", error);
     notFound();
   }
 
